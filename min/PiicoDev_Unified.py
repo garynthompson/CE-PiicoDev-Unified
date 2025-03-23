@@ -1,4 +1,3 @@
-'\nPiicoDev.py: Unifies I2C drivers for different builds of MicroPython\nChangelog:\n    - 2021       M.Ruppe - Initial Unified Driver\n    - 2022-10-13 P.Johnston - Add helptext to run i2csetup script on Raspberry Pi \n    - 2022-10-14 M.Ruppe - Explicitly set default I2C initialisation parameters for machine-class (Raspberry Pi Pico + W)\n    - 2023-01-31 L.Howell - Add minimal support for ESP32\n    - 2023-05-17 M.Ruppe - Make I2CUnifiedMachine() more flexible on initialisation. Frequency is optional.\n    - 2023-12-20 M.Taylor - added scan() function for quick userland test of connected i2c modules\n'
 _F='address must be 8 or 16 bits long only'
 _E='microbit'
 _D=False
