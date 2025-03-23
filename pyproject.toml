@@ -12,7 +12,6 @@ authors = [
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: Implementation :: MicroPython",
-    "License :: OSI Approved :: MIT License"
 ]
 
 dependencies = [
