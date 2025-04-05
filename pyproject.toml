@@ -25,7 +25,7 @@ Repository = "https://github.com/CoreElectronics/CE-PiicoDev-Unified"
 Issues = "https://github.com/CoreElectronics/CE-PiicoDev-Unified/issues"
 
 [tool.setuptools]
-py-modules = ["PiicoDev_Unified"]
+packages = ["PiicoDev_Unified"]
 
 [project.optional-dependencies]
 dev = [

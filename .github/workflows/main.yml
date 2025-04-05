@@ -29,9 +29,15 @@ jobs:
       - name: install python packages
         run: pip install git+https://github.com/garynthompson/python-minifier.git@remove_unused_platforms#egg=python-minifier
 
-      - name: run minifier
-        run: pyminify --remove-literal-statements PiicoDev_Unified.py > min/PiicoDev_Unified.py
-          
+      - name: run minifier generic
+        run: pyminify --remove-literal-statements PiicoDev_Unified/__init__.py > min/PiicoDev_Unified.py
+
+      - name: run minifier small micropython
+        run: pyminify --remove-literal-statements --remove-unused-platforms --platform-test-key "_PLATFORM_BUILD" --platform-preserve-value "micropython" PiicoDev_Unified/__init__.py > min/PiicoDev_Unified_micropython.py
+
+      - name: run minifier small microbit
+        run: pyminify --remove-literal-statements --remove-unused-platforms --platform-test-key "_PLATFORM_BUILD" --platform-preserve-value "microbit" PiicoDev_Unified/__init__.py > min/PiicoDev_Unified_microbit.py
+
       - name: commit files
         run: |
           git config --local user.email "action@github.com"
