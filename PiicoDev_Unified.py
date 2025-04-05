@@ -17,18 +17,23 @@ setupi2c_str = ', run "sudo curl -L https://piico.dev/i2csetup | bash". Suppress
 if _SYSNAME == 'microbit':
     from microbit import i2c
     from utime import sleep_ms
+    from asyncio import sleep_ms as a_sleep_ms
     
 elif _SYSNAME == 'Linux':
     from smbus2 import SMBus, i2c_msg
     from time import sleep
-    from math import ceil
+    from asyncio import sleep as a_sleep_s
     
     def sleep_ms(t):
         sleep(t/1000)
 
+    async def a_sleep_ms(t: int):
+        await a_sleep_s(t/1000)
+
 else:
     from machine import I2C, Pin
     from utime import sleep_ms
+    from asyncio import sleep_ms as a_sleep_ms
 
 class I2CBase:
     def writeto_mem(self, addr, memaddr, buf, *, addrsize=8):
