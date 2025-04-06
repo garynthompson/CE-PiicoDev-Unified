@@ -18,9 +18,7 @@ async def a_sleep_ms(t: int):
 
 
 compat_ind = 1
-i2c_err_str = (
-    "PiicoDev could not communicate with module at address 0x{:02X}, check wiring"
-)
+
 setup_i2c_str = ', run "sudo curl -L https://piico.dev/i2csetup | bash". Suppress this warning by setting suppress_warnings=True'
 
 

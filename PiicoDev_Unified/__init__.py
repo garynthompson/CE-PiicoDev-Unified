@@ -13,11 +13,12 @@ Changelog:
 import os
 
 _SYSNAME = os.uname().sysname
-_PLATFORM_BUILD = _SYSNAME if _SYSNAME in ("microbit", "Linux") else "micropython"
+PLATFORM_BUILD = _SYSNAME if _SYSNAME in ("microbit", "Linux") else "micropython"
 compat_ind = 1
 i2c_err_str = (
     "PiicoDev could not communicate with module at address 0x{:02X}, check wiring"
 )
+compat_str = "\nUnified PiicoDev library out of date.  Get the latest module: https://piico.dev/unified \n"
 
 # The provided Python Minify fork will provide platform specific minified files.
 # Each PiicoI2C class must implement the following function signatures
@@ -28,7 +29,7 @@ i2c_err_str = (
 # def read16(self, addr, nbytes, stop=True)  # noqa
 # def __init__(self, bus=None, freq=None, sda=None, scl=None)
 
-if _PLATFORM_BUILD == "microbit":
+if PLATFORM_BUILD == "microbit":
     # noinspection PyUnresolvedReferences
     from microbit import i2c
 
@@ -68,10 +69,10 @@ if _PLATFORM_BUILD == "microbit":
         def scan(self):
             print([hex(i) for i in self.i2c.scan()])
 
-elif _PLATFORM_BUILD == "Linux":
+elif PLATFORM_BUILD == "Linux":
     from PiicoDev_Unified.linux import PiicoI2C, sleep_ms, a_sleep_ms
 
-elif _PLATFORM_BUILD == "micropython":
+elif PLATFORM_BUILD == "micropython":
     # noinspection PyUnresolvedReferences
     from machine import I2C, Pin
 
@@ -140,7 +141,7 @@ else:
     )
 
 # Platform unified create function, split for minification
-if _PLATFORM_BUILD == "microbit":
+if PLATFORM_BUILD == "microbit":
 
     _i2c = None
 
@@ -154,7 +155,7 @@ if _PLATFORM_BUILD == "microbit":
 
         return _i2c
 
-elif _PLATFORM_BUILD == "Linux":
+elif PLATFORM_BUILD == "Linux":
 
     _bus_cache = {}
 
@@ -173,7 +174,7 @@ elif _PLATFORM_BUILD == "Linux":
             _bus_cache[bus] = i2c
             return i2c
 
-elif _PLATFORM_BUILD == "micropython":
+elif PLATFORM_BUILD == "micropython":
 
     _bus_cache = {}
 
