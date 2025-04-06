@@ -1,6 +1,6 @@
 [project]
 name = "piicodev-unified"
-version = "1.10.2"
+version = "1.10.3"
 description = "Drivers for the PiicoDev ecosystem of sensors and modules"
 license = "MIT"
 readme = "README.md"

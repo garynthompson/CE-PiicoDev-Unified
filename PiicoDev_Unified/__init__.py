@@ -154,7 +154,7 @@ if _PLATFORM_BUILD == "microbit":
 
         return _i2c
 
-elif _PLATFORM_BUILD == "linux":
+elif _PLATFORM_BUILD == "Linux":
 
     _bus_cache = {}
 
