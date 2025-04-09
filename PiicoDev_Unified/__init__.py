@@ -19,6 +19,7 @@ i2c_err_str = (
     "PiicoDev could not communicate with module at address 0x{:02X}, check wiring"
 )
 compat_str = "\nUnified PiicoDev library out of date.  Get the latest module: https://piico.dev/unified \n"
+_i2c_freq = 400_000
 
 # The provided Python Minify fork will provide platform specific minified files.
 # Each PiicoI2C class must implement the following function signatures
@@ -28,6 +29,27 @@ compat_str = "\nUnified PiicoDev library out of date.  Get the latest module: ht
 # def write8(self, addr, buf, stop=True)
 # def read16(self, addr, nbytes, stop=True)  # noqa
 # def __init__(self, bus=None, freq=None, sda=None, scl=None)
+
+
+def set_i2c_freq(freq=400_000):
+    """
+    Setting i2c on a per-device basis can cause conflicts.  The purpose of this
+    function is to centralise global bus speed.  If your project has multiple i2c
+    buses, then this only applies to the default bus.
+
+    This will only affect Micropython ports.  Typical options include:
+    * 100_000:  Standard/Legacy mode, potentially not compatible with some devices
+    * 400_000:  Fast Mode:  Most compatible
+    * 1000_000:  Fast+
+    * 3400_000:  High speed and requires careful hardware design
+    """
+    global _i2c_freq
+    if freq < 400_000:
+        print(
+            "\033[91mWarning: minimum freq 400kHz is recommended if using OLED module.\033[0m"
+        )
+    _i2c_freq = freq
+
 
 if PLATFORM_BUILD == "microbit":
     # noinspection PyUnresolvedReferences
@@ -92,13 +114,9 @@ elif PLATFORM_BUILD == "micropython":
                 )
 
             if freq is None:
-                freq = 400_000
+                freq = _i2c_freq
             if not isinstance(freq, int):
                 raise ValueError("freq must be an Int")
-            if freq < 400_000:
-                print(
-                    "\033[91mWarning: minimum freq 400kHz is recommended if using OLED module.\033[0m"
-                )
             if bus is not None and sda is not None and scl is not None:
                 print(
                     "Using supplied bus, sda, and scl to create machine.I2C() with freq: {} Hz".format(
@@ -183,7 +201,7 @@ elif PLATFORM_BUILD == "micropython":
         bus=None, freq=None, sda=None, scl=None, suppress_warnings=True
     ):
         global _bus_cache
-        bus_key = f"{bus}{freq}{sda}{scl}"
+        bus_key = f"{bus}{sda}{scl}"
         if bus_key in _bus_cache:
             return _bus_cache[bus_key]
         else:
